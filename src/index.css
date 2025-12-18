@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@keyframes animation-delay-1000 {
+  0%, 100% { opacity: 1; }
+}
+.animation-delay-1000 { animation-delay: 1s; }
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+@keyframes scroll-unroll {
+  0% { transform: scaleY(0.8) translateY(10px); }
+  50% { transform: scaleY(1.05); }
+  100% { transform: scaleY(1) translateY(0); }
+}
+@keyframes scroll-reveal {
+  from { opacity: 0; transform: translateY(30px); }
+}
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-scroll-unroll { animation: scroll-unroll 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+.animate-scroll-reveal { animation: scroll-reveal 0.8s ease-out forwards; }
+.animate-scroll-bounce { animation: scroll-bounce 1.5s infinite; }
+
+/* Smooth scrolling for anchor links like #story */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Slightly warm background so empty areas feel consistent with the theme */
+body {
+  background: #f8f4ed;
+}
+
+/* Better text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+@font-face {
+    font-family:bidena; ;
+    src: url("../src/assets/fonts/Bidenatrial.ttf");
+}
+
+@font-face {
+    font-family: basker;
+    src: url("../src/assets/fonts/Baskervville-Regular.ttf");
+}
+@font-face {
+    font-family: weds;
+    src: url("../src/assets/fonts/Wedding-Accesories.ttf");
+}
+@font-face {
+    font-family: nav;
+    src: url("../src/assets/fonts/Awesome.ttf");
+}
+
+@font-face {
+    font-family: foot;
+    src: url("../src/assets/fonts/Milker.otf");
+}
+@font-face {
+    font-family: title;
+    src: url("../src/assets/fonts/Hasly.otf");
+}
+@font-face {
+    font-family: font ;
+    src: url("../src/assets/fonts/Footlight.ttf");
+}
+@font-face {
+    font-family: invite ;
+    src: url("../src/assets/fonts/PerfectoCalligraphy.ttf");
+}
+@font-face {
+    font-family: awesome ;
+    src: url("../src/assets/fonts/Awesome.ttf");
+}
+@font-face {
+    font-family: adelio ;
+    src: url("../src/assets/fonts/adelio.otf");
+}
+@font-face {
+    font-family: monster ;
+    src: url("../src/assets/fonts/Monster.ttf");
+}
+
+
+
+
+@theme {
+  --font-family: "Covered By Your Grace", cursive;
+  --font-heading:"Style Script", cursive; 
+  --font-head:bidena;
+  --font-para:basker;
+  --font-date:weds;
+  --font-nav:nav;
+  --font-foot:foot;
+  --font-title:title;
+  --font-font:font;
+  --font-invite:invite;
+  --font-awesome:awesome;
+  --font-adelio:adelio;
+  --font-monster:monster;
+}
+
