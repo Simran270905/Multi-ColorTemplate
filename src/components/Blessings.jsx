@@ -113,71 +113,106 @@ const Blessings = () => {
   };
 
   return (
-    <section
-      ref={ref}
-      id="blessings"
-      className="relative py-24 md:py-32 px-4 md:px-12 lg:px-20 overflow-hidden
-                 bg-gradient-to-br from-[#fdfcfb]/95 via-[#f8f4ed]/90 to-[#fdfcfb]/95"
+  <section
+    ref={ref}
+    id="blessings"
+    className="
+      relative
+      py-20 sm:py-24 md:py-32
+      px-4 sm:px-6 md:px-12 lg:px-20
+      overflow-hidden
+      bg-gradient-to-br
+      from-[#fdfcfb]/95 via-[#f8f4ed]/90 to-[#fdfcfb]/95
+    "
+  >
+    <canvas
+      ref={canvasRef}
+      className="
+        absolute inset-0 w-full h-full
+        opacity-60 sm:opacity-70 md:opacity-85
+        -z-10 pointer-events-none
+      "
+    />
+
+    <motion.div
+      className="relative z-20 max-w-3xl mx-auto text-center"
+      variants={containerVariants}
+      initial="hidden"
+      animate={controls}
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-70 md:opacity-85 -z-10"
-      />
-
-      <motion.div
-        className="relative z-20 max-w-3xl mx-auto text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate={controls}
+      <motion.p
+        className="
+          text-[0.55rem] sm:text-[0.6rem] md:text-[0.7rem]
+          uppercase tracking-[0.35em]
+          text-[#b8860b] mb-5 sm:mb-6
+          font-para font-bold
+        "
+        variants={textVariants}
       >
-        <motion.p
-          className="text-[0.6rem] md:text-[0.7rem] uppercase tracking-[0.35em]
-                     text-[#b8860b] mb-6 font-para font-bold"
-          variants={textVariants}
+        With Love & Prayers
+      </motion.p>
+
+      <motion.h2
+        className="
+          text-2xl sm:text-3xl md:text-4xl lg:text-7xl
+          font-adelio font-black
+          text-[#3d2207]
+          mb-8 sm:mb-10
+          leading-tight
+        "
+        variants={textVariants}
+      >
+        A Blessing for the
+        <span
+          className="
+            block bg-gradient-to-r
+            from-[#daa520] via-[#f4d03f] to-[#daa520]
+            bg-clip-text text-transparent
+          "
         >
-          With Love & Prayers
-        </motion.p>
+          Journey Ahead
+        </span>
+      </motion.h2>
 
-        <motion.h2
-          className="text-3xl md:text-4xl lg:text-7xl font-adelio font-black
-                     text-[#3d2207] mb-10 leading-tight"
-          variants={textVariants}
-        >
-          A Blessing for the
-          <span className="block bg-gradient-to-r from-[#daa520] via-[#f4d03f] to-[#daa520]
-                           bg-clip-text text-transparent">
-            Journey Ahead
-          </span>
-        </motion.h2>
+      <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#daa520] to-transparent mx-auto mb-12 sm:mb-14" />
 
-        {/* Simple divider (no icon, no animation) */}
-        <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#daa520] to-transparent mx-auto mb-14" />
+      <motion.p
+        className="
+          text-xs sm:text-sm md:text-base
+          text-[#5d2e0a]/90
+          leading-relaxed
+          font-font font-bold italic
+          bg-white/70 backdrop-blur-lg
+          px-5 sm:px-6 md:px-10
+          py-6 sm:py-7 md:py-8
+          rounded-2xl
+          border border-[#daa520]/30
+          shadow-lg
+        "
+        variants={textVariants}
+      >
+        May your lives be woven with <span className="text-[#daa520]">love</span>,
+        patience, and shared laughter.<br />
+        May every dawn bring <span className="text-[#e2725b]">understanding</span>,
+        and every dusk bring peace.<br />
+        May your home be filled with <span className="text-[#f4d03f]">warmth</span>,
+        and your hearts with gratitude.
+      </motion.p>
 
-        <motion.p
-          className="text-sm md:text-base text-[#5d2e0a]/90 leading-relaxed
-                     font-font font-bold italic bg-white/70 backdrop-blur-xl
-                     px-6 md:px-10 py-8 rounded-2xl
-                     border border-[#daa520]/30 shadow-lg"
-          variants={textVariants}
-        >
-          May your lives be woven with <span className="text-[#daa520]">love</span>,
-          patience, and shared laughter.<br />  
-          May every dawn bring <span className="text-[#e2725b]">understanding</span>,
-          and every dusk bring peace.<br />
-          May your home be filled with <span className="text-[#f4d03f]">warmth</span>,
-          and your hearts with gratitude.
-        </motion.p>
-
-        <motion.p
-          className="text-[0.65rem] uppercase tracking-[0.25em]
-                     text-[#b8860b]/80 font-font font-bold mt-8"
-          variants={textVariants}
-        >
-          — With blessings from family & friends —
-        </motion.p>
-      </motion.div>
-    </section>
-  );
-};
-
+      <motion.p
+        className="
+          text-[0.6rem] sm:text-[0.65rem]
+          uppercase tracking-[0.25em]
+          text-[#b8860b]/80
+          font-font font-bold
+          mt-6 sm:mt-8
+        "
+        variants={textVariants}
+      >
+        — With blessings from family & friends —
+      </motion.p>
+    </motion.div>
+  </section>
+);
+}
 export default Blessings;
