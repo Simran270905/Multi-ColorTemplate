@@ -19,25 +19,25 @@ const Invite = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1, staggerChildren: 0.2 }
-    }
+      transition: { duration: 1, staggerChildren: 0.2 },
+    },
   };
 
   const expandVariants = {
     closed: {
       height: 0,
       opacity: 0,
-      transition: { duration: 0.6, ease: "easeInOut" }
+      transition: { duration: 0.6, ease: "easeInOut" },
     },
     open: {
       height: "auto",
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeInOut" }
-    }
+      transition: { duration: 0.8, ease: "easeInOut" },
+    },
   };
 
   const toggleInvite = () => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
     inviteControls.start(isOpen ? "closed" : "open");
   };
 
@@ -80,19 +80,18 @@ const Invite = () => {
               {[
                 {
                   name: "Miss Ishita",
-                  parents: "Mr. Rameshwar & Mrs. Sunita Sharma"
+                  parents: "Mr. Rameshwar & Mrs. Sunita Sharma",
                 },
                 {
                   name: "Mr. Raman",
-                  parents: "Mr. Vijay & Mrs. Lakshmi Patil"
-                }
+                  parents: "Mr. Vijay & Mrs. Lakshmi Patil",
+                },
               ].map(({ name, parents }) => (
                 <motion.div
                   key={name}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="group"
                 >
                   <h3
                     className="text-3xl md:text-4xl lg:text-5xl font-awesome p-5
@@ -121,23 +120,23 @@ const Invite = () => {
             animate={inviteControls}
             className="overflow-hidden"
           >
-            <div className="border-t-4 border-[#daa520]/40 mx-8 md:mx-16 m-10" />
+            <div className="border-t-4 border-[#daa520]/40 mx-8 md:mx-16 my-10" />
 
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 px-4 md:px-8 lg:px-12">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 px-4 md:px-8 lg:px-12 pb-12">
               {[
                 {
                   title: "Wedding Ceremony",
                   date: "18th December 2025",
                   time: "7:30 AM Onwards",
-                  venue: "Shri Ganesh Mandir, Pune"
+                  venue: "Shri Ganesh Mandir, Pune",
                 },
                 {
                   title: "Reception",
                   date: "18th December 2025",
                   time: "7:30 PM Onwards",
-                  venue: "The Corinthians Resort, Pune"
-                }
-              ].map(e => (
+                  venue: "The Corinthians Resort, Pune",
+                },
+              ].map((e) => (
                 <motion.div
                   key={e.title}
                   className="rounded-3xl p-8 md:p-12
@@ -159,22 +158,10 @@ const Invite = () => {
                 </motion.div>
               ))}
             </div>
-
-            <div className="text-center py-16">
-              <button
-                onClick={toggleInvite}
-                className="rounded-3xl border-2 border-[#daa520]/50
-                           px-10 md:px-14 py-5 md:py-6
-                           font-serif text-lg md:text-xl font-semibold
-                           bg-[#fdfcfb]/80 shadow-xl hover:scale-105 transition"
-              >
-                Roll Invitation Back ↶
-              </button>
-            </div>
           </motion.div>
         </motion.div>
 
-        {/* CTA BUTTON BELOW CARD */}
+        {/* SINGLE CTA BUTTON */}
         <div className="flex justify-center mt-12 md:mt-16">
           <motion.button
             onClick={toggleInvite}

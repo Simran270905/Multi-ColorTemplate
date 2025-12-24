@@ -57,7 +57,7 @@ const Hero = () => {
       }
     }
 
-    const count = window.innerWidth < 640 ? 50 : 90;
+    const count = window.innerWidth < 640 ? 40 : 90;
     const particles = Array.from({ length: count }, () => new Particle());
     let time = 0;
 
@@ -92,85 +92,111 @@ const Hero = () => {
     if (isInView) controls.start("animate");
   }, [isInView, controls]);
 
-  /* ----------------------------
-     Variants
-  ---------------------------- */
   const nameVariants = {
-    hidden: { opacity: 0, y: 80, scale: 0.9 },
+    hidden: { opacity: 0, y: 60, scale: 0.95 },
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 1.2, type: "spring", damping: 18 },
+      transition: { duration: 1.1, type: "spring", damping: 18 },
     },
   };
 
   const stagger = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     animate: i => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.15, duration: 0.8 },
+      transition: { delay: i * 0.15, duration: 0.7 },
     }),
   };
 
-  /* ----------------------------
-     JSX
-  ---------------------------- */
   return (
     <section
       ref={ref}
       id="hero"
       className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-[#fdf2f0] via-[#f8f4ed] to-[#f9f5f0]"
     >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10" />
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
+      />
 
-      <div className="relative z-20 grid min-h-screen grid-cols-1 md:grid-cols-2 gap-16 px-4 sm:px-8 md:px-12 lg:px-24 py-20 md:py-32">
-        {/* LEFT */}
-        <motion.div
-          className="flex flex-col justify-center space-y-10 text-[#3d2207]"
-          initial="hidden"
-          animate={controls}
-        >
-          <motion.p custom={0} variants={stagger} className="tracking-[0.4em] uppercase text-sm font-para text-[#b8860b]">
-            With Divine Blessings
-          </motion.p>
+      <div className="relative z-20 grid min-h-screen grid-cols-1 md:grid-cols-2 
+        px-5 sm:px-8 md:px-12 lg:px-24 
+        py-16 sm:py-20 md:py-32 
+        gap-12 md:gap-16"
+      >
 
-          <motion.h1 custom={1} variants={nameVariants} className="font-serif leading-tight">
-            <span className="block text-5xl sm:text-6xl md:text-8xl font-monster bg-gradient-to-r from-[#d95a44] via-[#daa520] to-[#f4d03f] bg-clip-text text-transparent">
-              Ishita
-            </span>
-            <span className="block mt-3 text-4xl sm:text-5xl md:text-7xl font-monster">
-              &nbsp;Raman
-            </span>
-          </motion.h1>
-
-          <motion.p custom={2} variants={stagger} className="max-w-xl text-lg sm:text-xl md:text-2xl font-font">
-            Invite you to witness and bless their sacred union, celebrated in the timeless elegance of Maharashtrian tradition.
-          </motion.p>
-
-          <motion.button
-            custom={3}
-            variants={stagger}
-            whileHover={{ scale: 1.05 }}
-            className="w-fit px-10 py-4 rounded-3xl border-2 border-[#daa520]/50 bg-[#fdfcfb]/80 font-font font-semibold shadow-xl"
-            onClick={() =>
-              document.getElementById("invite")?.scrollIntoView({ behavior: "smooth" })
-            }
+        {/* IMAGE – FIRST ON MOBILE */}
+        <motion.div className="flex justify-center items-center md:order-2">
+          <div className="w-full max-w-[260px] sm:max-w-sm md:max-w-md 
+            aspect-[3/4] rounded-3xl overflow-hidden 
+            border-4 border-[#daa520]/40 shadow-2xl"
           >
-            View Full Invitation →
-          </motion.button>
-        </motion.div>
-
-        {/* RIGHT IMAGE */}
-        <motion.div className="flex justify-center items-center">
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md aspect-[3/4] rounded-3xl overflow-hidden border-4 border-[#daa520]/40 shadow-2xl">
             <img
               src={portrait}
               alt="Couple"
               className="w-full h-full object-cover"
             />
           </div>
+        </motion.div>
+
+        {/* TEXT */}
+        <motion.div
+          className="flex flex-col justify-center items-center md:items-start
+            text-center md:text-left space-y-6 sm:space-y-8 text-[#3d2207]"
+          initial="hidden"
+          animate={controls}
+        >
+          <motion.p
+            custom={0}
+            variants={stagger}
+            className="tracking-[0.35em] uppercase text-xs sm:text-sm 
+              font-para text-[#b8860b]"
+          >
+            With Divine Blessings
+          </motion.p>
+
+          <motion.h1
+            custom={1}
+            variants={nameVariants}
+            className="font-serif leading-tight"
+          >
+            <span className="block text-4xl sm:text-5xl md:text-8xl 
+              font-monster bg-gradient-to-r 
+              from-[#d95a44] via-[#daa520] to-[#f4d03f] 
+              bg-clip-text text-transparent"
+            >
+              Ishita &
+            </span>
+            <span className="block mt-2 text-4xl sm:text-5xl md:text-8xl font-monster">
+              Raman
+            </span>
+          </motion.h1>
+
+          <motion.p
+            custom={2}
+            variants={stagger}
+            className="max-w-md text-base sm:text-lg md:text-2xl font-font"
+          >
+            Invite you to witness and bless their sacred union,
+            celebrated in the timeless elegance of Maharashtrian tradition.
+          </motion.p>
+
+          <motion.button
+            custom={3}
+            variants={stagger}
+            whileHover={{ scale: 1.05 }}
+            className="w-full sm:w-fit px-8 sm:px-10 py-4 
+              rounded-3xl border-2 border-[#daa520]/50 
+              bg-[#fdfcfb]/80 font-font font-semibold shadow-xl"
+            onClick={() =>
+              document.getElementById("invite")?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            View Full Invitation →
+          </motion.button>
         </motion.div>
       </div>
     </section>

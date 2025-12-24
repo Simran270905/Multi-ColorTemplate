@@ -20,7 +20,7 @@ const Home = () => {
       <Navbar />
 
       {/* MAIN CONTENT */}
-      <main className="flex flex-col gap-24 md:gap-32 lg:gap-40">
+      <main className="flex flex-col gap-8 md:gap-10 lg:gap-20">
         {/* HERO */}
         <section className="w-full">
           <Hero />
