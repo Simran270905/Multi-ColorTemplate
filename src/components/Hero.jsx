@@ -2,27 +2,53 @@ import React, { useEffect, useRef } from "react";
 import { motion, useInView, useAnimationControls } from "framer-motion";
 import portrait from "../assets/image/couple.jpg";
 
-const Hero = () => {
+const heroConfig = {
+  id: "wedding-hero-canvas-1",
+  brideName: "Ishita",
+  groomName: "Raman",
+  subtitle: "With Divine Blessings",
+  description: "Invite you to witness and bless their sacred union, celebrated in the timeless elegance of Maharashtrian tradition.",
+  ctaText: "View Full Invitation →",
+  image: portrait,
+  colors: {
+    primary: "#daa520",
+    gradientFrom: "#d95a44",
+    gradientVia: "#daa520", 
+    gradientTo: "#f4d03f",
+    text: "#3d2207",
+    subtitle: "#b8860b",
+    border: "#daa520",
+  },
+  canvas: {
+    particleColors: [
+      "rgba(218,165,32,0.3)",
+      "rgba(255,215,0,0.25)",
+      "rgba(184,134,11,0.2)",
+      "rgba(255,223,127,0.35)",
+    ],
+    particleCount: { mobile: 40, desktop: 90 },
+  },
+  layout: {
+    padding: { xs: "5", sm: "8", md: "12", lg: "24" },
+    py: { sm: "20", md: "32" },
+    gap: "8",
+    imageMaxWidth: { xs: "[260px]", sm: "sm", md: "md" },
+    spaceY: { default: "6", sm: "8" },
+  },
+};
+
+const Hero = ({ config = heroConfig }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimationControls();
   const canvasRef = useRef(null);
 
-  /* ----------------------------
-     Particle system
-  ---------------------------- */
+  /* Particle system - FIXED */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let animationFrameId;
-
-    const colors = [
-      "rgba(218,165,32,0.3)",
-      "rgba(255,215,0,0.25)",
-      "rgba(184,134,11,0.2)",
-      "rgba(255,223,127,0.35)",
-    ];
 
     class Particle {
       constructor() { this.reset(); }
@@ -36,7 +62,7 @@ const Hero = () => {
         this.size = Math.random() * 3 + 1;
         this.life = 0;
         this.maxLife = 400;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.color = config.canvas.particleColors[Math.floor(Math.random() * config.canvas.particleColors.length)];
         this.orbitSpeed = Math.random() * 0.008 + 0.002;
       }
       update(t) {
@@ -57,7 +83,7 @@ const Hero = () => {
       }
     }
 
-    const count = window.innerWidth < 640 ? 40 : 90;
+    const count = window.innerWidth < 640 ? config.canvas.particleCount.mobile : config.canvas.particleCount.desktop;
     const particles = Array.from({ length: count }, () => new Particle());
     let time = 0;
 
@@ -86,7 +112,7 @@ const Hero = () => {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [config.canvas.particleColors]); // ✅ FIXED dependency
 
   useEffect(() => {
     if (isInView) controls.start("animate");
@@ -122,20 +148,12 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
       />
 
-      <div className="relative z-20 grid min-h-screen grid-cols-1 md:grid-cols-2 
-        px-5 sm:px-8 md:px-12 lg:px-24 
-        py-16 sm:py-20 md:py-32 
-        gap-12 md:gap-16"
-      >
-
+      <div className="relative z-20 grid min-h-screen grid-cols-1 md:grid-cols-2 px-5 sm:px-8 md:px-12 lg:px-24 sm:py-20 md:py-32 gap-8 md:gap-8">
         {/* IMAGE – FIRST ON MOBILE */}
         <motion.div className="flex justify-center items-center md:order-2">
-          <div className="w-full max-w-[260px] sm:max-w-sm md:max-w-md 
-            aspect-[3/4] rounded-3xl overflow-hidden 
-            border-4 border-[#daa520]/40 shadow-2xl"
-          >
+          <div className="w-full max-w-[260px] sm:max-w-sm md:max-w-md aspect-[3/4] rounded-3xl overflow-hidden border-4 border-[#daa520]/40 shadow-2xl">
             <img
-              src={portrait}
+              src={config.image}
               alt="Couple"
               className="w-full h-full object-cover"
             />
@@ -144,18 +162,16 @@ const Hero = () => {
 
         {/* TEXT */}
         <motion.div
-          className="flex flex-col justify-center items-center md:items-start
-            text-center md:text-left space-y-6 sm:space-y-8 text-[#3d2207]"
+          className="flex flex-col justify-center items-center md:items-start text-center md:text-left space-y-6 sm:space-y-8 text-[#3d2207]"
           initial="hidden"
           animate={controls}
         >
           <motion.p
             custom={0}
             variants={stagger}
-            className="tracking-[0.35em] uppercase text-xs sm:text-sm 
-              font-para text-[#b8860b]"
+            className="tracking-[0.35em] uppercase text-xs sm:text-sm font-para text-[#b8860b]"
           >
-            With Divine Blessings
+            {config.subtitle}
           </motion.p>
 
           <motion.h1
@@ -163,15 +179,11 @@ const Hero = () => {
             variants={nameVariants}
             className="font-serif leading-tight"
           >
-            <span className="block text-4xl sm:text-5xl md:text-8xl 
-              font-monster bg-gradient-to-r 
-              from-[#d95a44] via-[#daa520] to-[#f4d03f] 
-              bg-clip-text text-transparent"
-            >
-              Ishita &
+            <span className="block text-4xl sm:text-5xl md:text-8xl font-monster bg-gradient-to-r from-[#d95a44] via-[#daa520] to-[#f4d03f] bg-clip-text text-transparent">
+              {config.brideName} &
             </span>
             <span className="block mt-2 text-4xl sm:text-5xl md:text-8xl font-monster">
-              Raman
+              {config.groomName}
             </span>
           </motion.h1>
 
@@ -180,22 +192,19 @@ const Hero = () => {
             variants={stagger}
             className="max-w-md text-base sm:text-lg md:text-2xl font-font"
           >
-            Invite you to witness and bless their sacred union,
-            celebrated in the timeless elegance of Maharashtrian tradition.
+            {config.description}
           </motion.p>
 
           <motion.button
             custom={3}
             variants={stagger}
             whileHover={{ scale: 1.05 }}
-            className="w-full sm:w-fit px-8 sm:px-10 py-4 
-              rounded-3xl border-2 border-[#daa520]/50 
-              bg-[#fdfcfb]/80 font-font font-semibold shadow-xl"
+            className="w-full sm:w-fit px-8 sm:px-10 py-4 rounded-3xl border-2 border-[#daa520]/50 bg-[#fdfcfb]/80 font-font font-semibold shadow-xl"
             onClick={() =>
               document.getElementById("invite")?.scrollIntoView({ behavior: "smooth" })
             }
           >
-            View Full Invitation →
+            {config.ctaText}
           </motion.button>
         </motion.div>
       </div>

@@ -1,21 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Navbar = () => {
+const navbarConfig = {
+  id: "wedding-navbar-1",
+  brideName: "Ishita",
+  groomName: "Raman",
+  logo: "❤️",
+  sections: [
+    { name: "Home", id: "hero" },
+    { name: "Invitation", id: "invite" },
+    { name: "Our Story", id: "story" },
+    { name: "Rituals", id: "rituals" },
+    { name: "Blessings", id: "blessings" }
+  ],
+  colors: {
+    gradientFrom: "#d95a44",
+    gradientVia: "#daa520",
+    gradientTo: "#f4d03f",
+    active: "#daa520",
+    text: "#5d2e0a",
+    border: "#daa520",
+  },
+  layout: {
+    scrollThreshold: 20,
+    activeThreshold: 120,
+    gaps: {
+      logo: "2", // Reduced spacing
+      desktopNav: "1", // Reduced from gap-2 lg:gap-4
+      mobileNav: "3", // Tight mobile buttons
+    },
+    padding: {
+      content: { px: { default: "4", sm: "6", lg: "24" }, py: { default: "4", lg: "6" } },
+      mobileMenu: "4",
+      mobileButtons: { px: "6", py: "4" },
+    },
+    sizes: {
+      logo: { default: { w: "11", h: "11" }, lg: { w: "14", h: "14" } },
+      logoIcon: { default: "xl", lg: "2xl" },
+      logoText: { default: "2xl", lg: "3xl" },
+      navButtons: { px: { default: "4", lg: "5" }, py: "2.5" },
+    },
+  },
+};
+
+const Navbar = ({ config = navbarConfig }) => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > config.layout.scrollThreshold);
 
-      const sections = ["hero", "invite", "story", "rituals", "blessings"];
+      const sections = config.sections.map(s => s.id);
       for (let id of sections) {
         const el = document.getElementById(id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
-        if (rect.top < 120 && rect.bottom > 120) {
+        if (rect.top < config.layout.activeThreshold && rect.bottom > config.layout.activeThreshold) {
           setActiveSection(id);
           break;
         }
@@ -25,20 +67,12 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [config.sections, config.layout]);
 
   const scrollToSection = (id) => {
     setMobileOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
-
-  const navItems = [
-    { name: "Home", id: "hero" },
-    { name: "Invitation", id: "invite" },
-    { name: "Our Story", id: "story" },
-    { name: "Rituals", id: "rituals" },
-    { name: "Blessings", id: "blessings" }
-  ];
 
   return (
     <motion.nav
@@ -52,39 +86,38 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
     >
       {/* NAVBAR CONTENT */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-24 py-4 lg:py-6">
+      <div className={`max-w-7xl mx-auto px-${config.layout.padding.content.px.default} sm:px-${config.layout.padding.content.px.sm} lg:px-${config.layout.padding.content.px.lg} py-${config.layout.padding.content.py.default} lg:py-${config.layout.padding.content.py.lg}`}>
         <div className="flex justify-between items-center">
           {/* LOGO */}
           <motion.div
-            className="flex items-center gap-3 cursor-pointer"
+            className={`flex items-center gap-${config.layout.gaps.logo} cursor-pointer`}
             whileHover={{ scale: 1.05 }}
             onClick={() => scrollToSection("hero")}
           >
-            <div className="w-11 h-11 lg:w-14 lg:h-14 bg-gradient-to-br from-[#d95a44] via-[#daa520] to-[#f4d03f] rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-xl lg:text-2xl font-serif font-black text-white">
-                ❤️
+            <div className={`w-${config.layout.sizes.logo.default.w} h-${config.layout.sizes.logo.default.h} lg:w-${config.layout.sizes.logo.lg.w} lg:h-${config.layout.sizes.logo.lg.h} bg-gradient-to-br from-[${config.colors.gradientFrom}] via-[${config.colors.gradientVia}] to-[${config.colors.gradientTo}] rounded-2xl flex items-center justify-center shadow-lg`}>
+              <span className={`text-${config.layout.sizes.logoIcon.default} lg:text-${config.layout.sizes.logoIcon.lg} font-serif font-black text-white`}>
+                {config.logo}
               </span>
             </div>
 
-            <div className="text-2xl lg:text-3xl font-invite font-bold bg-gradient-to-r from-[#d95a44] via-[#daa520] to-[#f4d03f] bg-clip-text text-transparent">
-              Ishita & Raman
+            <div className={`text-${config.layout.sizes.logoText.default} lg:text-${config.layout.sizes.logoText.lg} font-invite font-bold bg-gradient-to-r from-[${config.colors.gradientFrom}] via-[${config.colors.gradientVia}] to-[${config.colors.gradientTo}] bg-clip-text text-transparent`}>
+              {config.brideName} & {config.groomName}
             </div>
           </motion.div>
 
-          {/* DESKTOP NAV */}
-          <ul className="hidden md:flex items-center gap-2 lg:gap-4">
-            {navItems.map((item) => {
+          {/* DESKTOP NAV - TIGHTER SPACING */}
+          <ul className={`hidden md:flex items-center gap-${config.layout.gaps.desktopNav}`}>
+            {config.sections.map((item) => {
               const active = activeSection === item.id;
               return (
                 <li key={item.id}>
                   <motion.button
                     onClick={() => scrollToSection(item.id)}
-                    className={`px-4 lg:px-5 py-2.5 rounded-2xl font-font font-bold text-lg transition-all
-                      ${
-                        active
-                          ? "text-[#daa520] bg-[#daa520]/10 shadow-md"
-                          : "text-[#5d2e0a]/80 hover:text-[#daa520]"
-                      }`}
+                    className={`px-${config.layout.sizes.navButtons.px.default} lg:px-${config.layout.sizes.navButtons.px.lg} py-${config.layout.sizes.navButtons.py} rounded-2xl font-font font-bold text-lg transition-all ${
+                      active
+                        ? "text-[#daa520] bg-[#daa520]/10 shadow-md"
+                        : "text-[#5d2e0a]/80 hover:text-[#daa520]"
+                    }`}
                     whileHover={{ y: -4, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -108,7 +141,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU - TIGHTER SPACING */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -118,17 +151,16 @@ const Navbar = () => {
             transition={{ duration: 0.4 }}
             className="md:hidden bg-[#fdfcfb]/95 backdrop-blur-xl border-t border-[#daa520]/20"
           >
-            <ul className="flex flex-col py-4">
-              {navItems.map((item) => (
+            <ul className={`flex flex-col py-${config.layout.padding.mobileMenu}`}>
+              {config.sections.map((item) => (
                 <li key={item.id}>
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`w-full text-left px-6 py-4 font-font text-lg font-bold transition
-                      ${
-                        activeSection === item.id
-                          ? "text-[#daa520] bg-[#daa520]/10"
-                          : "text-[#5d2e0a]"
-                      }`}
+                    className={`w-full text-left px-${config.layout.padding.mobileButtons.px} py-${config.layout.padding.mobileButtons.py} font-font text-lg font-bold transition gap-${config.layout.gaps.mobileNav} ${
+                      activeSection === item.id
+                        ? "text-[#daa520] bg-[#daa520]/10"
+                        : "text-[#5d2e0a]"
+                    }`}
                   >
                     {item.name}
                   </button>
